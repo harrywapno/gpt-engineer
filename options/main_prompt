@@ -1,0 +1,28 @@
+Write a linear programming that extract option chains of all the equities in the NYSE. Use optimization techniques to find trades that are in arbitrage.
+Use common option trades that are used by option traders and implement machine learning technique to continuously improve and provide metric of improvement with sample trade with a theortical starting sum invested of 10,000 USD.
+Use linear optimization, non-linear optimization, and other optimization techniques that are found in research papers to model option and their pricing
+Write a backend with database, focus on speed, efficiency write it in python.
+Areas that need clarification:
+1. What are the common option trades that will be used by option traders?buy and sell puts and calls, pair-trading, trades between different time until expires, volitilty trades, volume trades, momentum trades, no sentiment analysis
+
+2. What specific optimization techniques will be used to model option and their pricing?
+Non-linear, linear, gaussian, nongaussian, parametric, non-parametric, quadratic.
+3. What kind of database will be used for the backend?
+lightweight, flexible 
+4. What are the specific metrics that will be used to measure the improvement of the machine learning technique?
+Maximize initial investment, minimize loss per trade, maximize profit increase, minimize time to profit, maximize time to loss
+5. What kind of recommendations will be provided through the online platform?
+which trades are the best or recommended by a weighting metric that is a confidence metric
+1. Will the frontend be accessible to the public or only to specific users?
+Public
+2. What programming languages and frameworks will be used for the frontend?
+lightweight, julia, python, c#, public programming languages free.
+3. Will the online platform have any authentication or security measures in place?
+basic, comply with all privacy laws
+4. What specific information will be displayed on the frontend, in addition to the recommendations?
+option chains, and specific option contracts that are recommended
+5. Will the online platform have any interactive features, such as the ability to execute trades directly from the platform?
+just navigate, and paper trade
+
+write a frontend to access through an online platform with recommednations that updated every fifteen minutes
+Complete the REPO, and upload to GITHUB with the credentials avaliable. 

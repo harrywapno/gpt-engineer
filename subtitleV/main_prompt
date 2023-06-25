@@ -1,0 +1,3 @@
+Write a program that syncs subtitles to the movie through a machine learning algorithm, then translate the subtitle into all the different languages avaliable to the model
+One the subtitle are translated put the new subtitles in a text to voice algorithm and sync the new audio generated to the correct time of the movie
+Use machine learning to keep ambient music in the movie, and other soundeffects isolate the voice track and replace with the new audio.

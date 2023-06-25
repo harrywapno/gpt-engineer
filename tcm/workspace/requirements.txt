@@ -1,0 +1,8 @@
+dataclasses
+numpy
+opencv-python
+pandas
+pydub
+pytube
+srt
+tensorflow

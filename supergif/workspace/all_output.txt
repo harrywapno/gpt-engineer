@@ -1,0 +1,141 @@
+Core classes, functions, and methods:
+- `FrameExtractor`: A class responsible for extracting frames from a video file.
+  - `__init__(self, video_path: str)`: Initializes the FrameExtractor object with the path to the video file.
+  - `extract_frames(self) -> List[Image]`: Extracts all frames from the video file and returns them as a list of PIL Image objects.
+- `GIFCreator`: A class responsible for creating a GIF from a list of frames.
+  - `__init__(self, frames: List[Image], duration: float)`: Initializes the GIFCreator object with a list of frames and the desired duration (in seconds) for each frame in the final GIF.
+  - `create_gif(self) -> bytes`: Creates a GIF from the frames and returns the binary data of the resulting GIF.
+- `GIFRenderer`: A class responsible for rendering a large GIF from a list of smaller GIFs.
+  - `__init__(self, gif_paths: List[str], num_cols: int)`: Initializes the GIFRenderer object with a list of paths to the smaller GIFs and the desired number of columns in the final GIF.
+  - `render_gif(self) -> bytes`: Renders a large GIF from the smaller GIFs and returns the binary data of the resulting GIF.
+
+entrypoint.py
+```python
+from typing import List
+from PIL import Image
+from frame_extractor import FrameExtractor
+from gif_creator import GIFCreator
+from gif_renderer import GIFRenderer
+
+VIDEO_PATH = "path/to/video.mp4"
+NUM_FRAMES_PER_GIF = 42
+FINAL_GIF_NUM_COLS = 5
+FINAL_GIF_DURATION = 12
+
+if __name__ == "__main__":
+    # Extract frames from video
+    frame_extractor = FrameExtractor(VIDEO_PATH)
+    frames = frame_extractor.extract_frames()
+
+    # Create GIFs from frames
+    num_frames = len(frames)
+    num_gifs = (num_frames // NUM_FRAMES_PER_GIF) + 1
+    gif_paths = []
+    for i in range(num_gifs):
+        start_idx = i * NUM_FRAMES_PER_GIF
+        end_idx = min((i + 1) * NUM_FRAMES_PER_GIF, num_frames)
+        gif_creator = GIFCreator(frames[start_idx:end_idx], FINAL_GIF_DURATION / NUM_FRAMES_PER_GIF)
+        gif_data = gif_creator.create_gif()
+        gif_path = f"gif_{i}.gif"
+        with open(gif_path, "wb") as f:
+            f.write(gif_data)
+        gif_paths.append(gif_path)
+
+    # Render final GIF from smaller GIFs
+    gif_renderer = GIFRenderer(gif_paths, FINAL_GIF_NUM_COLS)
+    final_gif_data = gif_renderer.render_gif()
+    with open("final.gif", "wb") as f:
+        f.write(final_gif_data)
+```
+
+frame_extractor.py
+```python
+from typing import List
+from PIL import Image
+import cv2
+
+class FrameExtractor:
+    def __init__(self, video_path: str):
+        self.video_path = video_path
+
+    def extract_frames(self) -> List[Image]:
+        frames = []
+        cap = cv2.VideoCapture(self.video_path)
+        while True:
+            ret, frame = cap.read()
+            if not ret:
+                break
+            frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+            frame = Image.fromarray(frame)
+            frames.append(frame)
+        cap.release()
+        return frames
+```
+
+gif_creator.py
+```python
+from typing import List
+from PIL import Image
+import imageio
+from dataclasses import dataclass
+
+@dataclass
+class FrameData:
+    image: Image
+    duration: float
+
+class GIFCreator:
+    def __init__(self, frames: List[Image], duration: float):
+        self.frames = frames
+        self.duration = duration
+
+    def create_gif(self) -> bytes:
+        frame_data = [FrameData(frame, self.duration) for frame in self.frames]
+        with imageio.get_writer("temp.gif", mode="I", duration=self.duration) as writer:
+            for data in frame_data:
+                writer.append_data(data.image)
+        with open("temp.gif", "rb") as f:
+            gif_data = f.read()
+        return gif_data
+```
+
+gif_renderer.py
+```python
+from typing import List
+import imageio
+from PIL import Image
+from dataclasses import dataclass
+
+@dataclass
+class GIFData:
+    path: str
+    duration: float
+
+class GIFRenderer:
+    def __init__(self, gif_paths: List[str], num_cols: int):
+        self.gif_paths = gif_paths
+        self.num_cols = num_cols
+
+    def render_gif(self) -> bytes:
+        gif_data = [GIFData(path, self.get_gif_duration(path)) for path in self.gif_paths]
+        num_gifs = len(gif_data)
+        num_rows = (num_gifs // self.num_cols) + 1
+        max_duration = max([data.duration for data in gif_data])
+        with imageio.get_writer("temp.gif", mode="I", duration=max_duration) as writer:
+            for i, data in enumerate(gif_data):
+                row_idx = i // self.num_cols
+                col_idx = i % self.num_cols
+                with imageio.get_reader(data.path) as reader:
+                    for frame in reader:
+                        writer.append_data(frame)
+                if col_idx == self.num_cols - 1:
+                    for _ in range(row_idx + 1, num_rows):
+                        writer.append_data(Image.new("RGB", reader.get_data(0).shape[:2], (255, 255, 255)))
+        with open("temp.gif", "rb") as f:
+            final_gif_data = f.read()
+        return final_gif_data
+
+    def get_gif_duration(self, path: str) -> float:
+        with imageio.get_reader(path) as reader:
+            return reader.get_meta_data()["duration"] / 1000.0
+```

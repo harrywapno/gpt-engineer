@@ -1,0 +1,13 @@
+Create code that uses machine-learning to do advance data analysis between the different variables and factors of the following data "Del1.csv" and "Del2.csv", provide graphics, a pipeline, and all dependencies that advance data analysis can create with .csv, numpy
+variables of the data are "	Current	30-59d DLQ	60-89d DLQ	90-119d DLQ	120-149d DLQ	150-179d DLQ	180d+ DLQ	Prepay	Credit Event	Removal" Difference between files are one borrower or two borrower write program and visualization to show contrast
+pandas
+scikit-learn
+matplotlib
+tensorflow
+GAN
+Use python backend with MVC components
+Please implement also the html and js necessary to run the data analysis with only the code you generate
+Create executable code that can run with a single python script
+compile and fix errors
+
+store visualizations in pdf file

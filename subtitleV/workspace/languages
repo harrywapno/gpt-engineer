@@ -1,0 +1,20 @@
+class Translator:
+    def __init__(self, languages):
+        self.languages = languages
+
+    def translate(self, subtitle, language):
+        # TODO: Implement translation algorithm
+        translated_text = "Translated text"
+        return Subtitle(translated_text, subtitle.get_timing())
+
+def translate_subtitles(subtitles):
+    languages = ["en", "es", "fr"] # Example languages
+    translator = Translator(languages)
+    translated_subtitles = []
+
+    for subtitle in subtitles:
+        for language in languages:
+            translated_subtitle = translator.translate(subtitle, language)
+            translated_subtitles.append(translated_subtitle)
+
+    return translated_subtitles

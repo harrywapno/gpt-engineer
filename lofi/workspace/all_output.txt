@@ -1,0 +1,152 @@
+Core Classes, Functions, and Methods:
+1. DataLoader - A class responsible for loading the midi files from the database and converting them into a format that can be used for training the AI model.
+2. ModelTrainer - A class responsible for training the AI model using the loaded midi files.
+3. MusicGenerator - A class responsible for generating novel music using the trained AI model.
+4. UserFeedback - A class responsible for collecting user feedback on the generated music and using it to improve the training of the AI model.
+
+Entrypoint File - main.py
+```python
+from dataloader import DataLoader
+from modeltrainer import ModelTrainer
+from musicgenerator import MusicGenerator
+from userfeedback import UserFeedback
+
+# Load midi files from the database
+data_loader = DataLoader()
+midi_data = data_loader.load_midi_files()
+
+# Train the AI model using the loaded midi files
+model_trainer = ModelTrainer()
+trained_model = model_trainer.train_model(midi_data)
+
+# Generate novel music using the trained AI model
+music_generator = MusicGenerator(trained_model)
+generated_music = music_generator.generate_music()
+
+# Collect user feedback on the generated music and use it to improve the training of the AI model
+user_feedback = UserFeedback()
+user_feedback.collect_feedback(generated_music)
+model_trainer.retrain_model(midi_data, user_feedback.get_feedback())
+
+# Release the generated music on a weekly basis on a youtube channel with a curated avatar
+```
+
+DataLoader File - dataloader.py
+```python
+import os
+import glob
+import pretty_midi
+
+class DataLoader:
+    def __init__(self):
+        pass
+    
+    def load_midi_files(self):
+        """
+        Load midi files from the database and convert them into a format that can be used for training the AI model.
+        """
+        midi_data = []
+        midi_files = glob.glob(os.path.join("midi_database", "*.mid"))
+        for file in midi_files:
+            midi = pretty_midi.PrettyMIDI(file)
+            midi_data.append(midi)
+        return midi_data
+```
+
+ModelTrainer File - modeltrainer.py
+```python
+import tensorflow as tf
+from tensorflow.keras.layers import LSTM, Dense
+from tensorflow.keras.models import Sequential
+from dataclasses import dataclass
+from typing import List
+
+@dataclass
+class ModelParams:
+    """
+    Dataclass for storing the parameters of the AI model.
+    """
+    num_units: int
+    dropout_rate: float
+    learning_rate: float
+    num_epochs: int
+    batch_size: int
+
+class ModelTrainer:
+    def __init__(self):
+        pass
+    
+    def train_model(self, midi_data: List[pretty_midi.PrettyMIDI], model_params: ModelParams):
+        """
+        Train the AI model using the loaded midi files.
+        """
+        # Convert midi data into a format that can be used for training the AI model
+        # ...
+
+        # Define the architecture of the AI model
+        model = Sequential()
+        model.add(LSTM(model_params.num_units, input_shape=(None, 128)))
+        model.add(Dropout(model_params.dropout_rate))
+        model.add(Dense(128, activation='softmax'))
+        optimizer = tf.keras.optimizers.Adam(lr=model_params.learning_rate)
+        model.compile(loss='categorical_crossentropy', optimizer=optimizer)
+
+        # Train the AI model
+        model.fit(x_train, y_train, epochs=model_params.num_epochs, batch_size=model_params.batch_size)
+
+        return model
+    
+    def retrain_model(self, midi_data: List[pretty_midi.PrettyMIDI], user_feedback: List[str], model_params: ModelParams):
+        """
+        Retrain the AI model using the updated midi data and user feedback.
+        """
+        # Update the midi data with the user feedback
+        # ...
+
+        # Train the AI model using the updated midi data
+        trained_model = self.train_model(midi_data, model_params)
+        return trained_model
+```
+
+MusicGenerator File - musicgenerator.py
+```python
+import numpy as np
+import pretty_midi
+
+class MusicGenerator:
+    def __init__(self, trained_model):
+        self.trained_model = trained_model
+    
+    def generate_music(self):
+        """
+        Generate novel music using the trained AI model.
+        """
+        # Generate music using the trained AI model
+        # ...
+
+        # Convert the generated music into a midi file
+        # ...
+
+        return generated_music
+```
+
+UserFeedback File - userfeedback.py
+```python
+class UserFeedback:
+    def __init__(self):
+        pass
+    
+    def collect_feedback(self, generated_music):
+        """
+        Collect user feedback on the generated music.
+        """
+        # Collect user feedback on the generated music
+        # ...
+    
+    def get_feedback(self):
+        """
+        Get the user feedback collected so far.
+        """
+        # Return the user feedback collected so far
+        # ...
+```

@@ -1,0 +1,23 @@
+import sync
+import translate
+import generate
+import process
+
+def main():
+    # Sync subtitles to the movie
+    synced_subtitles = sync.sync_subtitles()
+
+    # Translate subtitles to different languages
+    translated_subtitles = translate.translate_subtitles(synced_subtitles)
+
+    # Generate new audio from translated subtitles
+    new_audio = generate.generate_audio(translated_subtitles)
+
+    # Process sound effects and ambient music in the movie
+    processed_audio = process.process_sound(new_audio)
+
+    # Save the new audio to a file
+    processed_audio.save("new_audio.mp3")
+
+if __name__ == "__main__":
+    main()

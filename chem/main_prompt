@@ -1,0 +1,4 @@
+write computer program that can predict and create organic synthesis pathways through a machine learning model that is trained on all the existing synthetic routes and NMR data that describe chemical processes.
+Use optimization techniques to limit chemical synthesis pathways to the least amount of steps and least amount of reagents. Use other techniques that can produce new synthetic pathways for natural products with an emphasis on analogues and derivative chemicals
+Create as many programs as needed to capture the true essence of chemical synthesis create a program to visualize the chemical structures from step to step in the chemical process. Make a desktop applet, and online app.
+Program essential data of the reaction and conditions requires and equipement needed. Make the program graphically robust.

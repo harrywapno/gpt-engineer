@@ -1,0 +1,13 @@
+project_folder/
+│
+├── ocr_engines.py
+│
+├── photo_converter.py
+│
+├── text_extractor.py
+│
+├── main.py
+│
+├── requirements.txt
+│
+└── README.md

@@ -1,0 +1,8 @@
+Write a machine learning program that aims to add color to black and white movies. 
+Start with a set of black and white movies, and the same movie title that have been colorized.
+Use this as a training set. In addition to add to the training set create a program that will convert color movies into black and white movies
+add these pair of movies into the training set
+use the existing model and training that can be found for colorization algorithms
+use lightweight alternative
+program a backend for database and functions main program , and front end for webpage that will host these movies as .mp4
+upload the repo to gihub under the stored credentials 

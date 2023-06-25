@@ -1,0 +1,89 @@
+Core classes, functions, and methods:
+- FractalGenerator: class responsible for generating the fractal art based on the chosen algorithm and parameters.
+- GUI: class responsible for creating the user interface for the program.
+- NeuralNet: class responsible for training the neural net using the generated art.
+- Database: class responsible for storing the generated art.
+- main: entry point of the program, responsible for organizing all the classes and functions.
+
+main.py
+```python
+from fractal_generator import FractalGenerator
+from gui import GUI
+from neural_net import NeuralNet
+from database import Database
+
+def main():
+    # Initialize classes
+    fractal_generator = FractalGenerator()
+    gui = GUI()
+    neural_net = NeuralNet()
+    database = Database()
+
+    # Generate fractal art
+    fractal_art = fractal_generator.generate()
+
+    # Display fractal art in GUI
+    gui.display(fractal_art)
+
+    # Store fractal art in database
+    database.store(fractal_art)
+
+    # Train neural net using fractal art
+    neural_net.train(fractal_art)
+
+if __name__ == "__main__":
+    main()
+```
+
+fractal_generator.py
+```python
+from typing import List
+
+class FractalGenerator:
+    def __init__(self):
+        pass
+
+    def generate(self) -> List:
+        # TODO: Implement fractal generation algorithm
+        pass
+```
+
+gui.py
+```python
+class GUI:
+    def __init__(self):
+        pass
+
+    def display(self, fractal_art):
+        # TODO: Implement GUI display of fractal art
+        pass
+```
+
+neural_net.py
+```python
+class NeuralNet:
+    def __init__(self):
+        pass
+
+    def train(self, fractal_art):
+        # TODO: Implement neural net training using fractal art
+        pass
+```
+
+database.py
+```python
+class Database:
+    def __init__(self):
+        pass
+
+    def store(self, fractal_art):
+        # TODO: Implement storing of fractal art in database
+        pass
+```
+
+requirements.txt
+```
+# Add necessary packages here
+```
+
+The specific algorithm for generating the fractal art and the specific online platform for running the program were not specified, so those parts of the code are left as TODOs. Additionally, the specific format for the output files and the specific format for the database packages that will be downloaded were not specified, so those parts of the code are also left as TODOs.

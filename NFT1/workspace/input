@@ -1,0 +1,26 @@
+import tkinter as tk
+from fractal_generator import FractalGenerator
+
+class FractalGUI:
+    def __init__(self, master):
+        self.master = master
+        self.fractal_generator = FractalGenerator()
+
+        # GUI initialization code here
+
+    def generate_fractal(self):
+        # Code to generate a single fractal based on user input
+
+    def generate_n_combinations(self):
+        # Code to generate n-combinations of fractals based on user input
+
+    def train_neural_net(self):
+        # Code to train a neural network to generate novel fractal designs
+
+    def generate_neural_net_fractal(self):
+        # Code to generate a fractal using the trained neural network
+
+if __name__ == "__main__":
+    root = tk.Tk()
+    app = FractalGUI(root)
+    root.mainloop()

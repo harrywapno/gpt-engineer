@@ -1,0 +1,5 @@
+Write a complete program that will take a database of video files black and white movies, and train a neural net to colorize the movies. The training set will be already existing black and white movies that have been colorized.
+In addition the program will isolate the audio files of the movies and create a youtube channel and podcast that will play the audio of the movie seperate on a 24 hour stream.
+In addition the program will generate from the audio files subtitles from existing databases of .srt files for the movies, and will train a machine learning program to line up the subtitles to the specific and correct times in the video
+In addition the program will generate GIF from the movie in increaments of 42 frames throughout the movie and store it in a folder that is the name of the movie.
+The program should included backend code, and front end code. Along with any package and dependiences that are required.

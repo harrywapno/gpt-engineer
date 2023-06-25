@@ -1,0 +1,18 @@
+import tensorflow as tf
+from fractal import Fractal
+
+class NeuralNet:
+    def __init__(self):
+        # Initialize neural network settings
+        self.model = None
+
+    def train_neural_net(self, fractals):
+        # Code to train a neural network to generate novel fractal designs
+        # using the provided fractals as training data
+        self.model = # Code to train neural network
+
+    def generate_neural_net_fractal(self):
+        # Code to generate a fractal using the trained neural network
+        fractal = Fractal()
+        # Code to generate fractal image using neural network
+        return fractal_image

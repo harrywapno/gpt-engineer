@@ -1,0 +1,20 @@
+import os
+from image_converter import ImageConverter
+
+if __name__ == '__main__':
+    folder_path = input("Enter folder path: ")
+    if not os.path.exists(folder_path):
+        print("Invalid folder path")
+        exit()
+
+    image_converter = ImageConverter()
+    jpg_files = image_converter.find_jpg_files(folder_path)
+    if not jpg_files:
+        print("No .jpg files found in the folder")
+        exit()
+
+    for jpg_file in jpg_files:
+        pdf_path = image_converter.convert_images_to_pdf([jpg_file])
+        text = image_converter.convert_pdf_to_text(pdf_path)
+        text_file_path = os.path.splitext(jpg_file)[0] + '.txt'
+        image_converter.save_text_file(text, text_file_path)

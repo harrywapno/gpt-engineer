@@ -1,0 +1,2 @@
+Write an application that will take a .mp4 movie create GIF out of all the frames 42 frames at a time, then render a GIF that is composed of each GIF that fills the entire GIF part by part by all the GIF to create a large GIF that is composed of all the small GIF and runs at the same time.
+Write it in python, and any other language for backend and front end development

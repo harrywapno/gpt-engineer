@@ -1,0 +1,8 @@
+Create code that uses machine-learning to do advance data analysis between the different variables and factors of the following data "Del1.csv" and "Del2.csv", provide graphics, a pipeline, and all dependencies that advance data analysis can create with .csv, numpy
+pandas
+scikit-learn
+matplotlib
+tensorflow
+GAN
+Use python backend with MVC components
+Please implement also the html and js necessary to run the data analysis with only the code you generate

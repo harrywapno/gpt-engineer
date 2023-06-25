@@ -1,0 +1,19 @@
+class AudioGenerator:
+    def __init__(self, voice):
+        self.voice = voice
+
+    def generate_audio(self, subtitle):
+        # TODO: Implement text-to-voice algorithm
+        audio = "Generated audio"
+        return audio
+
+def generate_audio(subtitles):
+    voice = "en-US" # Example voice
+    audio_generator = AudioGenerator(voice)
+    new_audio = []
+
+    for subtitle in subtitles:
+        audio = audio_generator.generate_audio(subtitle)
+        new_audio.append((audio, subtitle.get_timing()))
+
+    return new_audio

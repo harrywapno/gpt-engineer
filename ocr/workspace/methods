@@ -1,0 +1,47 @@
+import os
+import subprocess
+from typing import List
+
+
+class ImageConverter:
+    def __init__(self):
+        self.tesseract_path = 'C:\\Program Files\\Tesseract-OCR\\tesseract.exe'
+        self.language = 'pol'
+
+    def find_jpg_files(self, folder_path: str) -> List[str]:
+        """
+        Finds all .jpg files in the specified folder
+        """
+        jpg_files = []
+        for file in os.listdir(folder_path):
+            if file.endswith('.jpg'):
+                jpg_files.append(os.path.join(folder_path, file))
+        return jpg_files
+
+    def convert_images_to_pdf(self, image_paths: List[str]) -> str:
+        """
+        Converts a list of image paths to a PDF file
+        """
+        pdf_path = os.path.splitext(image_paths[0])[0] + '.pdf'
+        command = ['magick', '-density', '300'] + image_paths + [pdf_path]
+        subprocess.run(command, check=True)
+        return pdf_path
+
+    def convert_pdf_to_text(self, pdf_path: str) -> str:
+        """
+        Converts a PDF file to plain text
+        """
+        text = ''
+        try:
+            command = [self.tesseract_path, pdf_path, 'stdout', '-l', self.language]
+            text = subprocess.check_output(command, stderr=subprocess.DEVNULL).decode('utf-8')
+        except subprocess.CalledProcessError:
+            print(f"Error converting {pdf_path} to text")
+        return text
+
+    def save_text_file(self, text: str, file_path: str):
+        """
+        Saves plain text to a file
+        """
+        with open(file_path, 'w', encoding='utf-8') as f:
+            f.write(text)

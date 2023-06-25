@@ -1,0 +1,118 @@
+Core classes, functions, and methods:
+- Movie: A class representing a movie, with attributes such as title, year, and file path.
+- Colorizer: A class representing the colorization algorithm, with methods for training and colorizing movies.
+- Database: A class representing the database, with methods for storing and retrieving movies.
+- Frontend: A class representing the front-end webpage, with methods for displaying movies and interacting with the user.
+
+Entrypoint file: main.py
+```python
+from movie import Movie
+from colorizer import Colorizer
+from database import Database
+from frontend import Frontend
+
+# Create instances of the necessary classes
+colorizer = Colorizer()
+database = Database()
+frontend = Frontend()
+
+# Train the colorizer on the existing colorized movies
+colorizer.train_on_colorized_movies()
+
+# Convert color movies to black and white and add them to the training set
+colorizer.add_black_and_white_movies_to_training_set()
+
+# Train the colorizer on the expanded training set
+colorizer.train_on_expanded_training_set()
+
+# Retrieve the list of movies from the database
+movies = database.get_movies()
+
+# Display the movies on the front-end webpage
+frontend.display_movies(movies)
+```
+
+Movie file: movie.py
+```python
+class Movie:
+    def __init__(self, title, year, file_path):
+        self.title = title
+        self.year = year
+        self.file_path = file_path
+```
+
+Colorizer file: colorizer.py
+```python
+import cv2
+
+class Colorizer:
+    def __init__(self):
+        self.colorization_model = cv2.dnn.readNetFromCaffe("colorization_deploy_v2.prototxt", "colorization_release_v2.caffemodel")
+    
+    def train_on_colorized_movies(self):
+        # Code to train the colorization model on the existing colorized movies
+        
+    def add_black_and_white_movies_to_training_set(self):
+        # Code to convert color movies to black and white and add them to the training set
+        
+    def train_on_expanded_training_set(self):
+        # Code to train the colorization model on the expanded training set
+        
+    def colorize_movie(self, movie):
+        # Code to colorize a black and white movie using the trained model
+        # Returns the file path of the colorized movie
+        
+```
+
+Database file: database.py
+```python
+import sqlite3
+
+class Database:
+    def __init__(self):
+        self.connection = sqlite3.connect("movies.db")
+        self.cursor = self.connection.cursor()
+        self.cursor.execute("CREATE TABLE IF NOT EXISTS movies (title TEXT, year INTEGER, file_path TEXT)")
+        self.connection.commit()
+        
+    def add_movie(self, movie):
+        # Code to add a movie to the database
+        
+    def get_movies(self):
+        # Code to retrieve the list of movies from the database
+        # Returns a list of Movie objects
+        
+```
+
+Frontend file: frontend.py
+```python
+from flask import Flask, render_template
+from movie import Movie
+from database import Database
+import os
+
+class Frontend:
+    def __init__(self):
+        self.app = Flask(__name__)
+        self.database = Database()
+        
+        @self.app.route("/")
+        def index():
+            movies = self.database.get_movies()
+            return render_template("index.html", movies=movies)
+        
+        @self.app.route("/movie/<title>")
+        def movie(title):
+            movie = self.database.get_movie_by_title(title)
+            return render_template("movie.html", movie=movie, colorized_movie_path=self.colorize_movie(movie))
+        
+        self.app.run()
+        
+    def display_movies(self, movies):
+        # Code to display the movies on the front-end webpage
+        
+    def colorize_movie(self, movie):
+        # Code to call the colorization algorithm to colorize the movie
+        # Returns the file path of the colorized movie
+        
+```

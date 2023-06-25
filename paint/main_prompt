@@ -1,0 +1,3 @@
+Write a complete program that will take any image convert it into .jpeg, and run an algorithm that will convert the image into a paint by number, let the user determine the difficulty which will be in how many colors to subdivide the image into. Let the image be subdivided based on colors and edge detection.
+Write the backend database, and front end for the application to run online and a desktop version and mobile version that runs offline
+Write it for andriod, windows, and web browser.

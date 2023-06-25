@@ -1,0 +1,14 @@
+class Fractal:
+    def __init__(self, color, shape, size):
+        self.color = color
+        self.shape = shape
+        self.size = size
+
+    def set_color(self, color):
+        self.color = color
+
+    def set_shape(self, shape):
+        self.shape = shape
+
+    def set_size(self, size):
+        self.size = size

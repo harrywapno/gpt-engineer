@@ -1,0 +1,247 @@
+Core classes, functions, and methods:
+- ImageConverter: A class that handles the conversion of any image to .jpeg format.
+- EdgeDetector: A class that handles the detection of edges in an image using a lightweight algorithm.
+- ColorSubdivider: A class that handles the subdivision of an image into a specified number of colors.
+- PaintByNumberGenerator: A class that generates a paint by number image based on the color-subdivided image.
+- DatabaseManager: A class that handles the backend database management.
+- Frontend: A class that handles the user interface for the application.
+
+Entrypoint file: main.py
+```python
+from image_converter import ImageConverter
+from edge_detector import EdgeDetector
+from color_subdivider import ColorSubdivider
+from paint_by_number_generator import PaintByNumberGenerator
+from database_manager import DatabaseManager
+from frontend import Frontend
+
+if __name__ == "__main__":
+    # Initialize objects
+    image_converter = ImageConverter()
+    edge_detector = EdgeDetector()
+    color_subdivider = ColorSubdivider()
+    paint_by_number_generator = PaintByNumberGenerator()
+    database_manager = DatabaseManager()
+    frontend = Frontend()
+
+    # Run application
+    frontend.run()
+```
+
+ImageConverter file: image_converter.py
+```python
+from PIL import Image
+
+class ImageConverter:
+    def __init__(self):
+        pass
+
+    def convert_to_jpeg(self, image_path):
+        """
+        Converts any image to .jpeg format.
+        """
+        with Image.open(image_path) as im:
+            im = im.convert("RGB")
+            im.save("converted_image.jpeg", "JPEG")
+```
+
+EdgeDetector file: edge_detector.py
+```python
+import cv2
+
+class EdgeDetector:
+    def __init__(self):
+        pass
+
+    def detect_edges(self, image_path):
+        """
+        Detects edges in an image using a lightweight algorithm.
+        """
+        img = cv2.imread(image_path, 0)
+        edges = cv2.Canny(img, 100, 200)
+        cv2.imwrite("edges.jpg", edges)
+```
+
+ColorSubdivider file: color_subdivider.py
+```python
+import numpy as np
+from sklearn.cluster import KMeans
+from PIL import Image
+
+class ColorSubdivider:
+    def __init__(self):
+        pass
+
+    def subdivide_colors(self, image_path, num_colors):
+        """
+        Subdivides an image into a specified number of colors.
+        """
+        with Image.open(image_path) as im:
+            im = im.convert("RGB")
+            im_array = np.array(im)
+            im_array = im_array.reshape((im_array.shape[0] * im_array.shape[1], 3))
+            kmeans = KMeans(n_clusters=num_colors, random_state=0).fit(im_array)
+            new_im_array = kmeans.cluster_centers_[kmeans.labels_]
+            new_im_array = new_im_array.reshape((im.size[1], im.size[0], 3))
+            new_im = Image.fromarray(np.uint8(new_im_array))
+            new_im.save("color_subdivided_image.jpg")
+```
+
+PaintByNumberGenerator file: paint_by_number_generator.py
+```python
+import numpy as np
+from PIL import Image
+
+class PaintByNumberGenerator:
+    def __init__(self):
+        pass
+
+    def generate_paint_by_number(self, image_path, num_colors):
+        """
+        Generates a paint by number image based on the color-subdivided image.
+        """
+        with Image.open(image_path) as im:
+            im = im.convert("RGB")
+            im_array = np.array(im)
+            im_array = im_array.reshape((im_array.shape[0] * im_array.shape[1], 3))
+            kmeans = KMeans(n_clusters=num_colors, random_state=0).fit(im_array)
+            new_im_array = kmeans.cluster_centers_[kmeans.labels_]
+            new_im_array = new_im_array.reshape((im.size[1], im.size[0], 3))
+            new_im = Image.fromarray(np.uint8(new_im_array))
+            new_im.save("color_subdivided_image.jpg")
+
+            # Generate paint by number image
+            pb_image = Image.new("RGB", im.size)
+            pb_pixels = pb_image.load()
+            for i in range(im.size[0]):
+                for j in range(im.size[1]):
+                    color = tuple(new_im_array[j][i])
+                    pb_pixels[i, j] = color
+            pb_image.save("paint_by_number_image.jpg")
+```
+
+DatabaseManager file: database_manager.py
+```python
+import sqlite3
+
+class DatabaseManager:
+    def __init__(self):
+        self.conn = sqlite3.connect("image_database.db")
+        self.cursor = self.conn.cursor()
+        self.create_table()
+
+    def create_table(self):
+        """
+        Creates a table for storing image data.
+        """
+        self.cursor.execute('''CREATE TABLE IF NOT EXISTS images
+                            (id INTEGER PRIMARY KEY AUTOINCREMENT,
+                            name TEXT NOT NULL,
+                            path TEXT NOT NULL,
+                            difficulty INTEGER NOT NULL)''')
+        self.conn.commit()
+
+    def insert_image(self, name, path, difficulty):
+        """
+        Inserts image data into the database.
+        """
+        self.cursor.execute("INSERT INTO images (name, path, difficulty) VALUES (?, ?, ?)", (name, path, difficulty))
+        self.conn.commit()
+
+    def get_images(self):
+        """
+        Retrieves all image data from the database.
+        """
+        self.cursor.execute("SELECT * FROM images")
+        return self.cursor.fetchall()
+```
+
+Frontend file: frontend.py
+```python
+from tkinter import *
+from tkinter import filedialog
+from tkinter import messagebox
+from image_converter import ImageConverter
+from edge_detector import EdgeDetector
+from color_subdivider import ColorSubdivider
+from paint_by_number_generator import PaintByNumberGenerator
+from database_manager import DatabaseManager
+
+class Frontend:
+    def __init__(self):
+        self.window = Tk()
+        self.window.title("Paint By Number Generator")
+        self.window.geometry("500x500")
+
+        self.image_converter = ImageConverter()
+        self.edge_detector = EdgeDetector()
+        self.color_subdivider = ColorSubdivider()
+        self.paint_by_number_generator = PaintByNumberGenerator()
+        self.database_manager = DatabaseManager()
+
+        self.image_path = None
+        self.difficulty = None
+
+        self.create_widgets()
+
+    def create_widgets(self):
+        """
+        Creates the user interface widgets.
+        """
+        # Image selection button
+        self.select_image_button = Button(self.window, text="Select Image", command=self.select_image)
+        self.select_image_button.pack(pady=10)
+
+        # Difficulty selection scale
+        self.difficulty_label = Label(self.window, text="Select Difficulty")
+        self.difficulty_label.pack()
+        self.difficulty_scale = Scale(self.window, from_=2, to=10, orient=HORIZONTAL)
+        self.difficulty_scale.pack()
+
+        # Generate paint by number button
+        self.generate_button = Button(self.window, text="Generate Paint By Number", command=self.generate_paint_by_number)
+        self.generate_button.pack(pady=10)
+
+        # Image listbox
+        self.image_listbox = Listbox(self.window)
+        self.image_listbox.pack(pady=10)
+        self.populate_image_listbox()
+
+    def select_image(self):
+        """
+        Opens a file dialog to select an image.
+        """
+        self.image_path = filedialog.askopenfilename(initialdir="/", title="Select Image", filetypes=(("jpeg files", "*.jpg"), ("png files", "*.png")))
+        messagebox.showinfo("Image Selected", "Image selected successfully.")
+
+    def generate_paint_by_number(self):
+        """
+        Generates a paint by number image based on the selected image and difficulty.
+        """
+        if self.image_path is None:
+            messagebox.showerror("Error", "Please select an image.")
+            return
+        self.difficulty = self.difficulty_scale.get()
+        self.image_converter.convert_to_jpeg(self.image_path)
+        self.edge_detector.detect_edges("converted_image.jpeg")
+        self.color_subdivider.subdivide_colors("edges.jpg", self.difficulty)
+        self.paint_by_number_generator.generate_paint_by_number("color_subdivided_image.jpg", self.difficulty)
+        self.database_manager.insert_image("Paint By Number Image", "paint_by_number_image.jpg", self.difficulty)
+        messagebox.showinfo("Paint By Number Generated", "Paint by number image generated successfully.")
+        self.populate_image_listbox()
+
+    def populate_image_listbox(self):
+        """
+        Populates the image listbox with all images in the database.
+        """
+        self.image_listbox.delete(0, END)
+        images = self.database_manager.get_images()
+        for image in images:
+            self.image_listbox.insert(END, f"{image[1]} - Difficulty: {image[3]}")
+
+    def run(self):
+        """
+        Runs the frontend application.
+        """
+        self.window.mainloop()
+```

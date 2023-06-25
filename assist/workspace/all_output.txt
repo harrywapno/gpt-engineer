@@ -1,0 +1,77 @@
+Core Classes:
+- Compiler: responsible for compiling the code and generating machine language
+- GUI: responsible for displaying the user interface and interacting with the user
+- CodeGenerator: responsible for generating code using Github Copilot and Visual Studio Intellisense
+
+Core Functions:
+- compile_code(): compiles the code and generates machine language
+- display_gui(): displays the user interface
+- generate_code(): generates code using Github Copilot and Visual Studio Intellisense
+
+Core Methods:
+- Compiler.compile(): compiles the code and generates machine language
+- GUI.display(): displays the user interface
+- CodeGenerator.generate(): generates code using Github Copilot and Visual Studio Intellisense
+
+entrypoint.py
+```python
+from compiler import Compiler
+from gui import GUI
+from code_generator import CodeGenerator
+
+def main():
+    compiler = Compiler()
+    gui = GUI()
+    code_generator = CodeGenerator()
+
+    while True:
+        user_input = gui.get_user_input()
+        if user_input == "compile":
+            code = gui.get_code()
+            compiled_code = compiler.compile(code)
+            gui.display_compiled_code(compiled_code)
+        elif user_input == "generate":
+            generated_code = code_generator.generate()
+            gui.display_generated_code(generated_code)
+        elif user_input == "exit":
+            break
+
+if __name__ == "__main__":
+    main()
+```
+
+compiler.py
+```python
+class Compiler:
+    def compile(self, code):
+        # implementation of code compilation
+        return compiled_code
+```
+
+gui.py
+```python
+class GUI:
+    def get_user_input(self):
+        # implementation of getting user input
+        return user_input
+
+    def get_code(self):
+        # implementation of getting code from user
+        return code
+
+    def display_compiled_code(self, compiled_code):
+        # implementation of displaying compiled code
+        pass
+
+    def display_generated_code(self, generated_code):
+        # implementation of displaying generated code
+        pass
+```
+
+code_generator.py
+```python
+class CodeGenerator:
+    def generate(self):
+        # implementation of code generation using Github Copilot and Visual Studio Intellisense
+        return generated_code
+```
